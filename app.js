@@ -93,4 +93,16 @@ app.get('/title/:title/limit/:limit', (req, res) => { //Find last n(limit) by ti
     })
 })
 
+app.get('/update/:user/:title/:update', (req, res) => { //Find one and update
+    execRequest(req, res, 404, async() => {
+        const {user, title, update} = req.params;
+        const filter = {user, title};
+        console.log(filter);
+        const data = {data: update};
+        await Data.findOneAndUpdate(filter, data);
+
+        res.status(200).json({"message": "successful"});
+    })
+})
+
 start(DB_URI, app, port);

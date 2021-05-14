@@ -4,17 +4,44 @@ const { execPromise } = require('../helper.js');
 const create = (user, title, data) =>
     execPromise(async() => {
         await Data.create({ user, title, data });
-    })
+    });
 
-const findAll = () => Data.find();
+const findAll = () =>
+    execPromise(async() => {
+        return Data.find();
+    });
 
-const findByUser = async(user, data) => data.filter(data => (data.user == user));
+const findByUser = async(user, data) =>
+    execPromise(async() => {
+        return data.filter(data => (data.user == user));
+    });
 
-const findByTitle = async(title, data) => data.filter(data => (data.title == title));
+const findByTitle = async(title, data) =>
+    execPromise(async() => {
+        return data.filter(data => (data.title == title));
+    });
 
-const findByUserAndTitle = async (user, title, data) => data.filter(data => (data.user == user && data.title == title));
+const findByUserAndTitle = async (user, title, data) =>
+    execPromise(async() => {
+        return data.filter(data => (data.user == user && data.title == title));
+    });
 
-const limitFind = (data, limit) => data.slice(-limit);
+const limitFind = (data, limit) =>
+    execPromise(async() => {
+        data.slice(-limit);
+    });
+
+const findOneAndUpdate = (filter, update) =>
+    execPromise(async() => {
+        await Data.findOneAndUpdate(
+            filter,
+            { $set: { ...update } },
+            {
+                new: true,
+                useFindAndModify: false,
+            },
+        );
+    });
 
 module.exports = {
     create,
@@ -23,4 +50,5 @@ module.exports = {
     findByTitle,
     findByUserAndTitle,
     limitFind,
+    findOneAndUpdate,
 }
