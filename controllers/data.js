@@ -28,7 +28,7 @@ const findByUserAndTitle = async (user, title, data) =>
 
 const limitFind = (data, limit) =>
     execPromise(async() => {
-        data.slice(-limit);
+        return data.slice(-limit);
     });
 
 const findOneAndUpdate = (filter, update) =>
