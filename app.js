@@ -71,4 +71,26 @@ app.get('/find/user/:user/title/:title', (req, res) => { //Find data by user and
     });
 });
 
+app.get('/user/:user/limit/:limit', (req, res) => { //Find last n(limit) by user "collection"
+    execRequest(req, res, 404, async() => {
+        const {user, limit} = req.params;
+        const all = await Data.findAll();
+        const all2 = await Data.findByUser(user, all);
+        const data = await Data.limitFind(all2, limit);
+
+        res.status(200).json(data);
+    })
+})
+
+app.get('/title/:title/limit/:limit', (req, res) => { //Find last n(limit) by title "collection"
+    execRequest(req, res, 404, async() => {
+        const {title, limit} = req.params;
+        const all = await Data.findAll();
+        const all2 = await Data.findByTitle(title, all);
+        const data = await Data.limitFind(all2, limit);
+
+        res.status(200).json(data);
+    })
+})
+
 start(DB_URI, app, port);

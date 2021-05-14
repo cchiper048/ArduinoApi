@@ -14,10 +14,13 @@ const findByTitle = async(title, data) => data.filter(data => (data.title == tit
 
 const findByUserAndTitle = async (user, title, data) => data.filter(data => (data.user == user && data.title == title));
 
+const limitFind = (data, limit) => data.slice(-limit);
+
 module.exports = {
     create,
     findAll,
     findByUser,
     findByTitle,
     findByUserAndTitle,
+    limitFind,
 }
