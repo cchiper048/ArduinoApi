@@ -29,7 +29,7 @@ app.get('/data/:user/:title/:data', (req, res) => { //Create new data block
         const {user, title, data} = req.params;
         Data.create(user, title, data);
 
-        res.status(201).json({"message":"successful"})
+        res.status(201).json({"message":"Successful created new data block"});
     });
 });
 
