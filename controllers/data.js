@@ -43,6 +43,18 @@ const findOneAndUpdate = (filter, update) =>
         );
     });
 
+const deleteOne = (filter) => {
+    execPromise(async() => {
+        await Data.deleteOne(filter);
+    });
+};
+
+const deleteMany = (filter) => {
+    execPromise(async() => {
+        await Data.deleteMany(filter);
+    });
+};
+
 module.exports = {
     create,
     findAll,
@@ -51,4 +63,6 @@ module.exports = {
     findByUserAndTitle,
     limitFind,
     findOneAndUpdate,
-}
+    deleteOne,
+    deleteMany,
+};
