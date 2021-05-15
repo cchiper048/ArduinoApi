@@ -29,7 +29,7 @@ app.get('/data/:user/:title/:data', (req, res) => { //Create new data block
         const {user, title, data} = req.params;
         Data.create(user, title, data);
 
-        res.status(201).json({"message":"Successful created new data block"});
+        res.status(201).json({"message":"Successfully created"});
     });
 });
 
@@ -79,8 +79,8 @@ app.get('/user/:user/limit/:limit', (req, res) => { //Find last n(limit) by user
         const data = await Data.limitFind(all2, limit);
 
         res.status(200).json(data);
-    })
-})
+    });
+});
 
 app.get('/title/:title/limit/:limit', (req, res) => { //Find last n(limit) by title "collection"
     execRequest(req, res, 404, async() => {
@@ -90,19 +90,34 @@ app.get('/title/:title/limit/:limit', (req, res) => { //Find last n(limit) by ti
         const data = await Data.limitFind(all2, limit);
 
         res.status(200).json(data);
-    })
-})
+    });
+});
 
 app.get('/update/:user/:title/:update', (req, res) => { //Find one and update
     execRequest(req, res, 404, async() => {
         const {user, title, update} = req.params;
         const filter = {user, title};
-        console.log(filter);
         const data = {data: update};
         await Data.findOneAndUpdate(filter, data);
 
-        res.status(200).json({"message": "successful"});
-    })
-})
+        res.status(200).json({"message": "successfully updated"});
+    });
+});
+
+app.get('/delete/:_id', (req, res) => { //Delete by document id (for app)
+    execRequest(req, res, 500, async() => {
+        const {_id} = req.params;
+        await Data.deleteOne({_id});
+        res.status(200).json({"message": "successfully deleted"});
+    });
+});
+
+app.get('/delete/title/:title', (req, res) => { //Delete documents by title
+    execRequest(req, res, 500, async() => {
+        const {title} = req.params;
+        await Data.deleteMany({title});
+        res.status(200).json({"message": "successfully deleted"});
+    });
+});
 
 start(DB_URI, app, port);
